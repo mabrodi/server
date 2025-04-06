@@ -6,6 +6,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class Response {
+    private static final String STATUS_NOT_FOUND = "404 Not Found";
+    private static final String STATUS_OK = "200 OK";
+    private static final String STATUS_REDIRECT = "301 Moved Permanently";
+
     private final BufferedWriter writer;
     private final String webAppPath;
 
@@ -35,15 +39,15 @@ public class Response {
                 sendNotFoundResponse();
                 return;
             } else {
-                sendFileResponse(file, 404);
+                sendFileResponse(file, STATUS_NOT_FOUND);
             }
         }
 
-        sendFileResponse(file, 200);
+        sendFileResponse(file, STATUS_OK);
     }
 
     private void sendRedirect(String location) throws IOException {
-        writer.write("301 Moved Permanently");
+        writer.write(STATUS_REDIRECT);
         writer.newLine();
         writer.write("Location: " + location);
         writer.newLine();
@@ -51,9 +55,8 @@ public class Response {
         writer.flush();
     }
 
-    private void sendFileResponse(File file, int statusCode) throws IOException {
-        String statusMessage = statusCode == 200 ? "OK" : "Not Found";
-        writer.write(statusCode + " " + statusMessage);
+    private void sendFileResponse(File file, String status) throws IOException {
+        writer.write(status);
         writer.newLine();
         writer.write("Content-Type: text/html");
         writer.newLine();
@@ -67,7 +70,7 @@ public class Response {
     }
 
     private void sendNotFoundResponse() throws IOException {
-        writer.write("404 Not Found");
+        writer.write(STATUS_NOT_FOUND);
         writer.newLine();
         writer.write("Content-Type: text/html");
         writer.newLine();
