@@ -43,16 +43,21 @@ public class Response {
     }
 
     private void sendRedirect(String location) throws IOException {
-        writer.write("301 Moved Permanently\r\n");
-        writer.write("Location: " + location + "\r\n\r\n");
+        writer.write("301 Moved Permanently");
+        writer.newLine();
+        writer.write("Location: " + location);
+        writer.newLine();
+        writer.newLine();
         writer.flush();
     }
 
     private void sendFileResponse(File file, int statusCode) throws IOException {
         String statusMessage = statusCode == 200 ? "OK" : "Not Found";
-        writer.write(statusCode + " " + statusMessage + "\r\n");
-        writer.write("Content-Length: " + file.length() + "\r\n");
-        writer.write("Content-Type: text/html\r\n\r\n");
+        writer.write(statusCode + " " + statusMessage);
+        writer.newLine();
+        writer.write("Content-Type: text/html");
+        writer.newLine();
+        writer.newLine();
 
         try (FileInputStream fileStream = new FileInputStream(file)) {
             byte[] buffer = fileStream.readAllBytes();
@@ -62,8 +67,11 @@ public class Response {
     }
 
     private void sendNotFoundResponse() throws IOException {
-        writer.write("404 Not Found\r\n");
-        writer.write("Content-Type: text/html\r\n\r\n");
+        writer.write("404 Not Found");
+        writer.newLine();
+        writer.write("Content-Type: text/html");
+        writer.newLine();
+        writer.newLine();
         writer.write("<h1>404 - Page Not Found</h1>");
         writer.flush();
     }
