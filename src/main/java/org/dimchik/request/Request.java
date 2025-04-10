@@ -1,4 +1,4 @@
-package org.dimchik;
+package org.dimchik.request;
 
 import java.io.BufferedReader;
 import java.io.IOException;

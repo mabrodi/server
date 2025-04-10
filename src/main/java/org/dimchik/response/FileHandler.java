@@ -1,4 +1,4 @@
-package org.dimchik;
+package org.dimchik.response;
 
 import java.io.File;
 import java.io.IOException;

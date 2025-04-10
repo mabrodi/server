@@ -1,4 +1,7 @@
-package org.dimchik;
+package org.dimchik.response;
+
+import org.dimchik.HttpStatus;
+import org.dimchik.request.Request;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,7 +29,7 @@ public class Response {
             File notFoundFile = fileHandler.resolve("/404.html");
             if (fileHandler.exists(notFoundFile)) {
                 byte[] content = fileHandler.readFile(notFoundFile);
-                responseWriter.writeResponse("404 Not Found", content);
+                responseWriter.writeResponse(HttpStatus.NOT_FOUND, content);
             } else {
                 responseWriter.writeNotFound();
             }
@@ -35,6 +38,6 @@ public class Response {
         }
 
         byte[] content = fileHandler.readFile(file);
-        responseWriter.writeResponse("200 OK", content);
+        responseWriter.writeResponse(HttpStatus.OK, content);
     }
 }

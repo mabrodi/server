@@ -1,5 +1,8 @@
 package org.dimchik;
 
+import org.dimchik.request.Request;
+import org.dimchik.response.Response;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
