@@ -1,7 +1,7 @@
 package org.dimchik;
 
-import org.dimchik.request.Request;
-import org.dimchik.response.Response;
+import org.dimchik.io.reader.FileContentReader;
+import org.dimchik.handler.RequestHandler;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -9,14 +9,14 @@ import java.net.Socket;
 
 public class Server {
     private int port = 3000;
-    private String webAppPath = "/";
+    private FileContentReader contentReader;
 
     public void setPort(int port) {
         this.port = port;
     }
 
     public void setWebAppPath(String webAppPath) {
-        this.webAppPath = webAppPath;
+        contentReader = new FileContentReader(webAppPath, webAppPath+"/error");
     }
 
     public void start() throws IOException {
@@ -26,9 +26,8 @@ public class Server {
                      BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                      BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                 ) {
-                    Request request = new Request(reader);
-                    Response response = new Response(writer, webAppPath);
-                    response.sendResponse(request);
+                    RequestHandler requestHandler = new RequestHandler(reader, writer, contentReader);
+                    requestHandler.handle();
                 }
             }
         }

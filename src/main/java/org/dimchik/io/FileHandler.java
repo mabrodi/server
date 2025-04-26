@@ -1,4 +1,4 @@
-package org.dimchik.response;
+package org.dimchik.io;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,10 +12,6 @@ public class FileHandler {
     }
 
     public File resolve(String uri) {
-        if (uri.equals("/")) {
-            uri = "/index.html";
-        }
-
         return new File(basePath + uri).getAbsoluteFile();
     }
 
